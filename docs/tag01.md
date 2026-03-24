@@ -2,7 +2,7 @@
 
 ## Screenshots
 
-![Screenshot von einem Android Gerät mit der Expo-App]("C:\Projects\flashcard-app\docs\img\expo-app-screen.png")
+![Screenshot von einem Android Gerät mit der Expo-App](/img/expo-app-screen.png)
 
 ## Was wurde gemacht
 
