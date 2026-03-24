@@ -7,7 +7,8 @@ export default function CreateDeckScreen() {
   const [title, setTitle] = useState('');
 
   const saveDeck = async () => {
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) {
       Alert.alert('Fehler', 'Bitte einen Titel eingeben');
       return;
     }
@@ -16,33 +17,35 @@ export default function CreateDeckScreen() {
       const data = await AsyncStorage.getItem('decks');
       const decks = data ? JSON.parse(data) : [];
 
-      // Neues Deck erstellen
-      const newDeck = { id: Date.now().toString(), title };
+      const newDeck = {
+        id: Date.now().toString(),
+        title: trimmedTitle,
+        cards: [
+          { question: 'Was ist React Native?', answer: 'Ein Framework zur App-Entwicklung mit JavaScript.' },
+          { question: 'Was macht useState?', answer: 'Es speichert lokale Zustände in einer Komponente.' },
+          { question: 'Wofür ist AsyncStorage?', answer: 'Zum Speichern von Daten lokal auf dem Gerät.' }
+        ]
+      };
 
-      // Deck hinzufügen
       const updatedDecks = [...decks, newDeck];
 
-      // Zurück in AsyncStorage speichern
       await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
 
-      // Zurück zur Startseite
       router.push('/');
     } catch (error) {
-      console.log('Fehler beim Speichern:', error);
+      console.log(error);
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Neues Deck erstellen</Text>
-
       <TextInput
         placeholder="Titel eingeben"
         value={title}
         onChangeText={setTitle}
         style={styles.input}
       />
-
       <Button title="Speichern" onPress={saveDeck} />
     </View>
   );
