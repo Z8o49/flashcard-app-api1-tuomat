@@ -2,7 +2,7 @@
 
 ## Screenshots
 
-![Screenshot von einem Android Gerät mit der Expo-App](/img/expo-app-screen.png)
+![Screenshot von einem Android Gerät mit der Expo-App](/img/expo-app-screen-tag1.png)
 
 ## Was wurde gemacht
 
