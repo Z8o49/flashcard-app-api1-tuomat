@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import styles from './styles';
+
 export default function CreateDeckScreen() {
   const [title, setTitle] = useState('');
 
@@ -20,15 +21,11 @@ export default function CreateDeckScreen() {
       const newDeck = {
         id: Date.now().toString(),
         title: trimmedTitle,
-        cards: [
-          { question: 'Was ist React Native?', answer: 'Ein Framework zur App-Entwicklung mit JavaScript.' },
-          { question: 'Was macht useState?', answer: 'Es speichert lokale Zustände in einer Komponente.' },
-          { question: 'Wofür ist AsyncStorage?', answer: 'Zum Speichern von Daten lokal auf dem Gerät.' }
-        ]
+        cards: [], // immer initialisieren
+        color: undefined,
       };
 
       const updatedDecks = [...decks, newDeck];
-
       await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
 
       router.push('/');

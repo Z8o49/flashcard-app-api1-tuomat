@@ -1,13 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Button } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 
 type Deck = {
   id: string;
   title: string;
+  cards?: { question: string; answer: string }[];
+  color?: string;
 };
 
 export default function HomeScreen() {
@@ -28,23 +31,36 @@ export default function HomeScreen() {
     }, [])
   );
 
-  return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <Text style={styles.header}>Willkommen zur Flashcard-App</Text>
+  const handleLongPress = (deck: Deck) => {
+    Alert.alert('Deck-Optionen', `Optionen für: ${deck.title}`);
+  };
 
-      <Button title="Deck erstellen" onPress={() => router.push('/create')} />
+  return (
+    <View style={styles.container}>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.createButton} onPress={() => router.push('/create')}>
+          <Text style={styles.createButtonText}>+ Deck erstellen</Text>
+        </TouchableOpacity>
+      </View>
 
       <FlatList
         data={decks}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        style={{ marginTop: 20 }}
+        contentContainerStyle={{ paddingBottom: 20 }}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.card}
+            style={{ flex: 1, margin: 10 }}
             onPress={() => router.push(`/deck/${item.id}`)}
+            onLongPress={() => handleLongPress(item)}
           >
-            <Text style={styles.title}>{item.title}</Text>
+            <LinearGradient
+              colors={[item.color || '#6a11cb', '#2575fc']}
+              style={styles.deckCard}
+            >
+              <Text style={styles.deckTitle}>{item.title}</Text>
+              <Text style={styles.cardCount}>{item.cards?.length ?? 0} Karten</Text>
+            </LinearGradient>
           </TouchableOpacity>
         )}
       />
