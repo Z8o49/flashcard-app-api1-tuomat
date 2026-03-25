@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Button } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import styles from './styles';
 
 type Deck = {
   id: string;
@@ -50,26 +51,3 @@ export default function HomeScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  card: {
-    flex: 1,
-    margin: 10,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});

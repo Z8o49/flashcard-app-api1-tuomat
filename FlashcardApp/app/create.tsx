@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-
+import styles from './styles';
 export default function CreateDeckScreen() {
   const [title, setTitle] = useState('');
 
@@ -39,7 +39,7 @@ export default function CreateDeckScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Neues Deck erstellen</Text>
+      <Text style={styles.createHeader}>Neues Deck erstellen</Text>
       <TextInput
         placeholder="Titel eingeben"
         value={title}
@@ -50,23 +50,3 @@ export default function CreateDeckScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  header: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 20,
-  },
-});
