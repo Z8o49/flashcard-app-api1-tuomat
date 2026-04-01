@@ -4,7 +4,8 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import styles from './styles';
+import { Ionicons } from '@expo/vector-icons';
+import styles from '../styles';
 
 type Deck = {
   id: string;
@@ -37,17 +38,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.createButton} onPress={() => router.push('/create')}>
-          <Text style={styles.createButtonText}>+ Deck erstellen</Text>
-        </TouchableOpacity>
-      </View>
-
       <FlatList
         data={decks}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ paddingBottom: 80 }}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={{ flex: 1, margin: 10 }}
@@ -64,6 +59,10 @@ export default function HomeScreen() {
           </TouchableOpacity>
         )}
       />
+
+      <TouchableOpacity style={styles.fab} onPress={() => router.push('/create')}>
+        <Ionicons name="add" size={30} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }

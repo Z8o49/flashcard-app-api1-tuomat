@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import styles from './styles';
+import styles from '../styles';
 
 export default function CreateDeckScreen() {
   const [title, setTitle] = useState('');
