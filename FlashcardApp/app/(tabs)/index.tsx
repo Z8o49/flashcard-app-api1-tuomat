@@ -33,7 +33,25 @@ export default function HomeScreen() {
   );
 
   const handleLongPress = (deck: Deck) => {
-    Alert.alert('Deck-Optionen', `Optionen für: ${deck.title}`);
+    Alert.alert(
+      'Deck löschen',
+      `Möchtest du das Deck "${deck.title}" wirklich löschen?`,
+      [
+        {
+          text: 'Abbrechen',
+          style: 'cancel',
+        },
+        {
+          text: 'Löschen',
+          style: 'destructive',
+          onPress: async () => {
+            const updatedDecks = decks.filter((d) => d.id !== deck.id);
+            await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
+            setDecks(updatedDecks);
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -50,7 +68,7 @@ export default function HomeScreen() {
             onLongPress={() => handleLongPress(item)}
           >
             <LinearGradient
-              colors={[item.color || '#6a11cb', '#2575fc']}
+              colors={[item.color || '#ccc', '#fff']}
               style={styles.deckCard}
             >
               <Text style={styles.deckTitle}>{item.title}</Text>
