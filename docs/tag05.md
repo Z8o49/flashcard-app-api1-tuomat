@@ -1,5 +1,9 @@
 # Tag 05 – Deck löschen & Farbverlauf
 
+## Screenshots
+
+![Screenshot von einem Android Gerät mit einem aktuellen Stand der Expo-App](../img/expo-app-tag5.png)
+
 ## Was gemacht wurde
 
 Heute habe ich zwei bestehende Dateien erweitert: `index.tsx` und `create.tsx`.
@@ -14,7 +18,7 @@ In `create.tsx` habe ich dafür gesorgt, dass jedes neue Deck beim Erstellen aut
 
 Der `LinearGradient` hat zwei Farben als Array erwartet. Es war wichtig, den Fallback-Wert `#ccc` korrekt zu setzen, damit kein Fehler entsteht, wenn ältere Decks noch keine gespeicherte Farbe haben.
 
-Ausserdem musste ich darauf achten, dass beim Löschen nicht nur der lokale State aktualisiert wird, sondern auch `AsyncStorage` – sonst wären die gelöschten Decks nach einem Neustart wieder erschienen.
+Ausserdem musste ich darauf achten, dass beim Löschen nicht nur der lokale State aktualisiert wird, sondern auch `AsyncStorage,` sonst wären die gelöschten Decks nach einem Neustart wieder erschienen.
 
 ## Fazit
 

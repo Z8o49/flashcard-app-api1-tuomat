@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
+import DeckOptionsModal from '../../components/DeckOptionsModal';
 
 type Deck = {
   id: string;
@@ -16,6 +17,9 @@ type Deck = {
 
 export default function HomeScreen() {
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
+  const [editTitle, setEditTitle] = useState('');
 
   const loadDecks = async () => {
     const data = await AsyncStorage.getItem('decks');
@@ -32,22 +36,58 @@ export default function HomeScreen() {
     }, [])
   );
 
-  const handleLongPress = (deck: Deck) => {
+  const openModal = (deck: Deck) => {
+    setSelectedDeck(deck);
+    setEditTitle(deck.title);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedDeck(null);
+    setEditTitle('');
+  };
+
+  const saveTitle = async () => {
+    if (!selectedDeck) return;
+    const trimmed = editTitle.trim();
+    if (!trimmed) {
+      Alert.alert('Fehler', 'Titel darf nicht leer sein');
+      return;
+    }
+    const updatedDecks = decks.map((d) =>
+      d.id === selectedDeck.id ? { ...d, title: trimmed } : d
+    );
+    setDecks(updatedDecks);
+    await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
+    setSelectedDeck({ ...selectedDeck, title: trimmed });
+  };
+
+  const saveColor = async (color: string) => {
+    if (!selectedDeck) return;
+    const updatedDecks = decks.map((d) =>
+      d.id === selectedDeck.id ? { ...d, color } : d
+    );
+    setDecks(updatedDecks);
+    await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
+    setSelectedDeck({ ...selectedDeck, color });
+  };
+
+  const deleteDeck = () => {
+    if (!selectedDeck) return;
     Alert.alert(
       'Deck löschen',
-      `Möchtest du das Deck "${deck.title}" wirklich löschen?`,
+      `Möchtest du das Deck "${selectedDeck.title}" wirklich löschen?`,
       [
-        {
-          text: 'Abbrechen',
-          style: 'cancel',
-        },
+        { text: 'Abbrechen', style: 'cancel' },
         {
           text: 'Löschen',
           style: 'destructive',
           onPress: async () => {
-            const updatedDecks = decks.filter((d) => d.id !== deck.id);
+            const updatedDecks = decks.filter((d) => d.id !== selectedDeck.id);
             await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
             setDecks(updatedDecks);
+            closeModal();
           },
         },
       ]
@@ -65,7 +105,7 @@ export default function HomeScreen() {
           <TouchableOpacity
             style={{ flex: 1, margin: 10 }}
             onPress={() => router.push(`/deck/${item.id}`)}
-            onLongPress={() => handleLongPress(item)}
+            onLongPress={() => openModal(item)}
           >
             <LinearGradient
               colors={[item.color || '#ccc', '#fff']}
@@ -81,6 +121,17 @@ export default function HomeScreen() {
       <TouchableOpacity style={styles.fab} onPress={() => router.push('/create')}>
         <Ionicons name="add" size={30} color="#fff" />
       </TouchableOpacity>
+
+      <DeckOptionsModal
+        visible={modalVisible}
+        deck={selectedDeck}
+        editTitle={editTitle}
+        onChangeTitle={setEditTitle}
+        onSaveTitle={saveTitle}
+        onSaveColor={saveColor}
+        onDelete={deleteDeck}
+        onClose={closeModal}
+      />
     </View>
   );
 }

@@ -4,11 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import styles from '../styles';
 
-const DECK_COLORS = [
-  '#e74c3c', '#e67e22', '#f1c40f', '#2ecc71',
-  '#1abc9c', '#3498db', '#9b59b6', '#e91e63',
-  '#00bcd4', '#ff5722', '#8bc34a', '#673ab7',
-];
+const DECK_COLORS = ['#FFD700', '#90EE90', '#87CEFA', '#FFB6C1', '#FFA07A']
 
 function getRandomColor(): string {
   return DECK_COLORS[Math.floor(Math.random() * DECK_COLORS.length)];

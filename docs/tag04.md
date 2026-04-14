@@ -3,7 +3,7 @@
 ## Screenshots
 
 ![Screenshot von einem Android Gerät mit einem aktuellen Stand der Expo-App](/img/expo-app-tag4.png)  
-![Screenshot von einem Android Gerät mit einem aktuellen Stand der Expo-App](/img/expo-app-tag4(1).png)  
+![Screenshot von einem Android Gerät mit einem aktuellen Stand der Expo-App](/img/expo-app-tag4(4).png)  
 ![Screenshot von einem Android Gerät mit einem aktuellen Stand der Expo-App](/img/expo-app-tag4(2).png)  
 ![Screenshot von einem Android Gerät mit einem aktuellen Stand der Expo-App](/img/expo-app-tag4(3).png)  
 
