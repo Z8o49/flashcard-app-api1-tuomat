@@ -79,6 +79,38 @@ export default function DeckDetailScreen() {
     }
   };
 
+  const deleteCard = async (index: number) => {
+    Alert.alert(
+      'Karte löschen',
+      'Willst du diese Karte löschen?',
+      [
+        { text: 'Abbrechen', style: 'cancel' },
+        {
+          text: 'Löschen',
+          style: 'destructive',
+          onPress: async () => {
+            const updatedCards = cards.filter((_, i) => i !== index);
+            try {
+              const data = await AsyncStorage.getItem('decks');
+              if (data) {
+                const parsed = JSON.parse(data);
+                const deckArray = Array.isArray(parsed) ? parsed : Object.values(parsed);
+                const updatedDecks = deckArray.map((d: Deck) =>
+                  d.id === deckId ? { ...d, cards: updatedCards } : d
+                );
+                await AsyncStorage.setItem('decks', JSON.stringify(updatedDecks));
+                setCards(updatedCards);
+                setDeck((prev) => (prev ? { ...prev, cards: updatedCards } : prev));
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          },
+        },
+      ]
+    );
+  };
+
   if (loading) {
     return (
       <View style={styles.detailContainer}>
@@ -98,16 +130,22 @@ export default function DeckDetailScreen() {
   return (
     <View style={styles.detailContainer}>
       <Text style={styles.deckTitleDark}>{deck.title}</Text>
+      <Text style={{ fontSize: 14, color: '#888', marginBottom: 12 }}>
+        📘 {deck.title} – {cards.length} Karten
+      </Text>
 
       <FlatList
         data={cards}
         keyExtractor={(_, index) => index.toString()}
         contentContainerStyle={{ paddingBottom: 80 }}
-        renderItem={({ item }) => (
-          <View style={styles.cardItem}>
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            onLongPress={() => deleteCard(index)}
+            style={styles.cardItem}
+          >
             <Text style={styles.cardQuestion}>{item.question}</Text>
             <Text style={styles.cardAnswer}>{item.answer}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
 
